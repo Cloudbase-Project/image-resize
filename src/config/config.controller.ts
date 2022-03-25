@@ -10,6 +10,8 @@ import {
   Post,
   Body,
   ValidationPipe,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
@@ -18,6 +20,7 @@ import { OwnerGuard } from './guards/ownerGuard';
 import { configService } from './config.service';
 import { createConfigDTO } from './dtos/createConfig.dto';
 import { ValidationException } from 'src/utils/exception/ValidationException';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 // @ApiHeader({ name: 'Authorization', required: true })
 @Controller('config')
@@ -50,5 +53,17 @@ export class configController {
   @UseGuards(OwnerGuard)
   toggleService(@Param('projectId') projectId: string) {
     return this.configService.toggleService(projectId, this.req.ownerId);
+  }
+
+  @Post('/:projectId')
+  @HttpCode(200)
+  @UseInterceptors(FileInterceptor('file'))
+  @UseGuards(OwnerGuard)
+  resizeImage(
+    @Query('height') height: number,
+    @Query('width') width: number,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.configService.resizeImage(file, height, width);
   }
 }
