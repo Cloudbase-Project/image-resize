@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudbase-authentication-mongo-depl
+spec:
+  selector:
+    matchLabels:
+      app: cloudbase-authentication-mongo-depl
+  template:
+    metadata:
+      labels:
+        app: cloudbase-authentication-mongo-depl
+    spec:
+      containers:
+        - name: cloudbase-authentication-mongo-depl
+          image: mongo
+          resources:
+            # limits:
+            #   memory: '128Mi'
+            #   cpu: '500m'
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudbase-authentication-mongo-svc
+spec:
+  selector:
+    app: cloudbase-authentication-mongo-depl
+  type: ClusterIP
+  ports:
+    - port: 27017
+      targetPort: 27017
