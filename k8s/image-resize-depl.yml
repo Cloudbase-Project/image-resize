@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloudbase-authentication-depl
+  name: cloudbase-image-resize-depl
 spec:
   selector:
     matchLabels:
-      app: cloudbase-authentication-depl
+      app: cloudbase-image-resize-depl
   template:
     metadata:
       labels:
-        app: cloudbase-authentication-depl
+        app: cloudbase-image-resize-depl
     spec:
       containers:
-        - name: cloudbase-authentication-depl
-          image: vnavaneeth/cloudbase-authentication
-          imagePullPolicy: "Never"
+        - name: cloudbase-image-resize-depl
+          image: vnavaneeth/cloudbase-image-resize
+          imagePullPolicy: 'Never'
           resources:
             # limits:
             #   memory: "128Mi"
@@ -26,10 +26,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cloudbase-authentication-svc
+  name: cloudbase-image-resize-svc
 spec:
   selector:
-    app: cloudbase-authentication-depl
+    app: cloudbase-image-resize-depl
   type: ClusterIP
   ports:
     - port: 4000

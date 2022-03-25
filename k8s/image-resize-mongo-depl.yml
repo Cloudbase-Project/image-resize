@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloudbase-authentication-mongo-depl
+  name: cloudbase-image-resize-mongo-depl
 spec:
   selector:
     matchLabels:
-      app: cloudbase-authentication-mongo-depl
+      app: cloudbase-image-resize-mongo-depl
   template:
     metadata:
       labels:
-        app: cloudbase-authentication-mongo-depl
+        app: cloudbase-image-resize-mongo-depl
     spec:
       containers:
-        - name: cloudbase-authentication-mongo-depl
+        - name: cloudbase-image-resize-mongo-depl
           image: mongo
           resources:
             # limits:
@@ -23,10 +23,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cloudbase-authentication-mongo-svc
+  name: cloudbase-image-resize-mongo-svc
 spec:
   selector:
-    app: cloudbase-authentication-mongo-depl
+    app: cloudbase-image-resize-mongo-depl
   type: ClusterIP
   ports:
     - port: 27017
