@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { AuthenticationTypes } from '../../user/types/AuthenticationTypes';
 
 export type ConfigDocument = Config & Document;
 
@@ -23,13 +22,6 @@ export class Config {
 
   @Prop({ required: true, default: false })
   enabled: boolean;
-
-  @Prop({
-    type: [String],
-    enum: AuthenticationTypes,
-    default: AuthenticationTypes.credentials,
-  })
-  authenticationTypes: [String];
 }
 
 export const ConfigSchema = SchemaFactory.createForClass(Config);
