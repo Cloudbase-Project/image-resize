@@ -55,14 +55,14 @@ export class configController {
     return this.configService.toggleService(projectId, this.req.ownerId);
   }
 
-  @Post('/:projectId')
+  @Post('/resize/:projectId')
   @HttpCode(200)
   @UseInterceptors(FileInterceptor('file'))
   @UseGuards(OwnerGuard)
   resizeImage(
     @Query('height') height: number,
     @Query('width') width: number,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile('file') file: Express.Multer.File,
   ) {
     return this.configService.resizeImage(file, height, width);
   }
