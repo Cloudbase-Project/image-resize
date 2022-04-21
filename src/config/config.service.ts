@@ -45,23 +45,16 @@ export class configService {
   async resizeImage(file: Express.Multer.File, height: number, width: number) {
     height = Number(height);
     width = Number(width);
-    console.log('reached function : ', file, height);
-    console.log('SHARP : ', sharp);
-    // const z = sharp().resize(width, height);
-    // file.stream.pipe(z);
-    // console.log('z : ', z);
-    const x = await sharp(file.buffer).resize(width, height).toBuffer();
-    console.log('X : ', x);
+    const transformedImage = await sharp(file.buffer)
+      .resize(width, height)
+      .toBuffer();
     const s3 = new S3();
-    console.log('S3 initialized');
     const s = s3.upload({
       Bucket: process.env.BUCKET,
       Key: file.originalname,
-      Body: x,
+      Body: transformedImage,
     });
-    console.log('Created config');
     await s.promise();
-    console.log('promissed ');
 
     return { message: 'resized image and uploaded successfully' };
   }
